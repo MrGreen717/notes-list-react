@@ -1,0 +1,111 @@
+.close-todo {
+	list-style: none;
+	box-sizing: border-box;
+	vertical-align: text-top;
+	display: inline-block;
+	width: 250px;
+	padding-left: 15px;
+	padding-right: 15px;
+	margin: 7px;
+	max-height: 500px;
+	overflow: hidden;
+	word-wrap: break-word;
+	white-space: pre-wrap;
+
+	border: 1px solid rgb(233, 233, 233);
+	border-radius: 10px;
+
+	&:hover {
+		box-shadow: 0px 1px 5px rgba(83, 83, 83, 0.4);
+	}
+
+	&__empty-todo {
+		font-weight: bold;
+		padding: 10px;
+		outline: none;
+		cursor: default;
+
+		&:empty:before {
+			content: attr(placeholder);
+			opacity: 0.5;
+			cursor: text;
+		}
+	}
+
+	&__input {
+		&-title {
+			font-weight: bold;
+			padding: 10px;
+			outline: none;
+			cursor: default;
+		}
+
+		&-text {
+			padding: 10px;
+			outline: none;
+			cursor: default;
+		}
+	}
+}
+
+.open-todo {
+	box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+	border-radius: 6px;
+	background-color: white;
+	padding: 10px;
+	width: 30rem;
+	z-index: 10;
+	position: fixed;
+	top: calc(50% - 15rem);
+	left: calc(50% - 15rem);
+	box-sizing: border-box;
+	max-height: 700px;
+
+	word-wrap: break-word;
+	white-space: pre-wrap;
+
+	&__input {
+		&-title {
+			padding: 10px;
+			font-weight: bold;
+			outline: none;
+			cursor: default;
+		}
+
+		&-text {
+			padding: 10px;
+			outline: none;
+			cursor: default;
+		}
+	}
+
+	.content-container {
+		max-height: 60vh;
+		overflow: auto;
+	}
+
+	.button-delete {
+		display: block;
+		margin-right: auto;
+		margin-left: auto;
+		width: 150px;
+		height: 40px;
+		border: 1px solid #c7c7c7;
+		border-radius: 5px;
+
+		&:hover {
+			background: #dfdede;
+			box-shadow: 0px 1px 5px rgba(83, 83, 83, 0.4);
+		}
+	}
+}
+
+.layout {
+	position: fixed;
+	z-index: 1;
+	background-color: rgba(0, 0, 0, 0.75);
+	width: 100%;
+	height: 100vh;
+	top: 0;
+	left: 0;
+}
