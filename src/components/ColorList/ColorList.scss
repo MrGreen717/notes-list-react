@@ -1,0 +1,17 @@
+.color-list {
+	margin: 0px 15px;
+	display: flex;
+	justify-content: space-between;
+	margin-top: 12px;
+
+	.color {
+		width: 18px;
+		height: 18px;
+		border: 2px solid transparent;
+		cursor: pointer;
+
+		&.active {
+			border: 2px solid #ececec;
+		}
+	}
+}

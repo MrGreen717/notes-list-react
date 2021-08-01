@@ -16,6 +16,7 @@ function App() {
 		const findTodo = todos.find((todo) => todo.id === obj.id)
 		findTodo.title = obj.title
 		findTodo.text = obj.text
+		findTodo.color = obj.color
 		setTodos([...todos])
 		localStorage.setItem('todos', JSON.stringify([...todos]))
 	}

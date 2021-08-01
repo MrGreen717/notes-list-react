@@ -1,8 +1,13 @@
 import React, { useRef, useState } from 'react'
 import TextArea from '../TextArea/TextArea'
 import './TodoItem.scss'
+import ColorList from './../ColorList/ColorList'
+import ButtonPanel from './../ButtonPanel/ButtonPanel'
+import ContentContainer from './../ContentContainer/ContentContainer'
 
-const TodoItem = ({ title, text, id, updateTodo, deleteTodo }) => {
+const TodoItem = ({ title, text, id, updateTodo, deleteTodo, color }) => {
+	const [activeColor, setActiveColor] = useState(color)
+	const [visibleColorList, setVisibleColorList] = useState(false)
 	const [editTodo, setEditTodo] = useState(false)
 	const [inputTitleValue, setInputTitleValue] = useState(title)
 	const [inputTextValue, setInputTextValue] = useState(text)
@@ -22,47 +27,49 @@ const TodoItem = ({ title, text, id, updateTodo, deleteTodo }) => {
 		}, 0)
 	}
 
-	const updateTodoHandler = (title, text) => {
+	const updateTodoHandler = (title, text, color) => {
 		const todo = {
 			id,
 			title,
-			text
+			text,
+			color
 		}
 		updateTodo(todo)
 	}
 
 	const confirmUpdate = () => {
 		setEditTodo(!editTodo)
-		updateTodoHandler(inputTitleValue.trim(), inputTextValue.trim())
+		setVisibleColorList(false)
+		updateTodoHandler(
+			inputTitleValue.trim(),
+			inputTextValue.trim(),
+			activeColor
+		)
 	}
 
 	return (
 		<>
 			{!editTodo && (
 				<li
-					className="close-todo"
+					className={'todo-close todo-' + activeColor}
 					onClick={openInput}
 					draggable="true"
 					ref={card}
 				>
 					{text === '' && title === '' && (
 						<TextArea
-							className="close-todo__empty-todo"
+							className="todo-close__empty-todo"
 							contentEditable="false"
 							text={title}
 							placeholder="Empty note"
 						/>
 					)}
 					{title === '' && text !== '' && (
-						<TextArea
-							className="close-todo__input-text"
-							contentEditable="false"
-							text={text}
-						/>
+						<TextArea className="input" contentEditable="false" text={text} />
 					)}
 					{text === '' && title !== '' && (
 						<TextArea
-							className="close-todo__input-title"
+							className="input input-title"
 							contentEditable="false"
 							text={title}
 						/>
@@ -70,41 +77,54 @@ const TodoItem = ({ title, text, id, updateTodo, deleteTodo }) => {
 					{text !== '' && title !== '' && (
 						<>
 							<TextArea
-								className="close-todo__input-title"
+								className="input input-title"
 								contentEditable="false"
 								text={title}
 							/>
 
-							<TextArea
-								className="close-todo__input-text"
-								contentEditable="false"
-								text={text}
-							/>
+							<TextArea className="input" contentEditable="false" text={text} />
 						</>
 					)}
 				</li>
 			)}
 			{editTodo && (
-				<div className="open-todo">
-					<div className="content-container">
+				<div className={'todo-open todo-' + activeColor}>
+					<ContentContainer>
 						<TextArea
 							input={inputTitle}
-							className="open-todo__input-title"
+							className="input input-title"
 							contentEditable="true"
 							text={title}
 							setValue={setInputTitleValue}
 						/>
 						<TextArea
 							input={inputText}
-							className="open-todo__input-text"
+							className="input"
 							contentEditable="true"
 							text={text}
 							setValue={setInputTextValue}
 						/>
-					</div>
-					<button className="button-delete" onClick={() => deleteTodo(id)}>
-						Delete note
-					</button>
+					</ContentContainer>
+					{visibleColorList && (
+						<ColorList
+							setActiveColor={setActiveColor}
+							activeColor={activeColor}
+						/>
+					)}
+
+					<ButtonPanel>
+						<button
+							className="button"
+							onClick={() => {
+								setVisibleColorList(!visibleColorList)
+							}}
+						>
+							Change color
+						</button>
+						<button className="button" onClick={() => deleteTodo(id)}>
+							Delete note
+						</button>
+					</ButtonPanel>
 				</div>
 			)}
 			{editTodo && <div className="layout" onClick={confirmUpdate} />}

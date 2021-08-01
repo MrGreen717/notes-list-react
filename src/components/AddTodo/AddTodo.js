@@ -2,13 +2,19 @@ import React, { useRef, useState } from 'react'
 import TextArea from './../TextArea/TextArea'
 
 import './AddTodo.scss'
+import ColorList from './../ColorList/ColorList'
+import ButtonPanel from './../ButtonPanel/ButtonPanel'
+import ContentContainer from './../ContentContainer/ContentContainer'
 
 const AddTodo = ({ addTodo }) => {
 	const [inputTextValue, setInputTextValue] = useState('')
 	const [inputTitleValue, setInputTitleValue] = useState('')
+	const [activeColor, setActiveColor] = useState('white')
+	const [visibleColorList, setVisibleColorList] = useState(false)
 	const [activeInput, setActiveInput] = useState(false)
 	const inputText = useRef(null)
 	const inputTitle = useRef(null)
+	const notePanel = useRef(null)
 
 	const openInput = () => {
 		setActiveInput(!activeInput)
@@ -20,6 +26,8 @@ const AddTodo = ({ addTodo }) => {
 	const clearInput = () => {
 		setInputTextValue('')
 		setInputTitleValue('')
+		setActiveColor('white')
+		setVisibleColorList(false)
 		setActiveInput(!activeInput)
 	}
 
@@ -30,10 +38,13 @@ const AddTodo = ({ addTodo }) => {
 			return
 		}
 
+		const color = activeColor
+
 		const todo = {
-			id: Math.random(),
+			id: Math.random().toString(36).substr(2, 15),
 			title,
-			text
+			text,
+			color
 		}
 
 		addTodo(todo)
@@ -43,9 +54,9 @@ const AddTodo = ({ addTodo }) => {
 	return (
 		<div className="add-todo">
 			{!activeInput && (
-				<div className="add-todo__close-input" onClick={openInput}>
+				<div className="add-todo__close" onClick={openInput}>
 					<TextArea
-						className="add-todo__close-input-textarea"
+						className="input"
 						contentEditable="false"
 						placeholder="Note text"
 					/>
@@ -53,36 +64,55 @@ const AddTodo = ({ addTodo }) => {
 			)}
 
 			{activeInput && (
-				<div className="add-todo__open-input">
-					<div className="content-container">
+				<div
+					className={'add-todo__open background-' + activeColor}
+					ref={notePanel}
+				>
+					<ContentContainer>
 						<TextArea
-							className="add-todo__open-input-titlearea"
+							className="input input-titlearea"
 							contentEditable="true"
 							placeholder="Enter title"
 							input={inputTitle}
 							setValue={setInputTitleValue}
 						/>
 						<TextArea
-							className="add-todo__open-input-textarea"
+							className="input input-textarea"
 							contentEditable="true"
 							placeholder="Note text"
 							input={inputText}
 							setValue={setInputTextValue}
 						/>
-					</div>
-					<div className="add-todo__open-input-button-panel">
+					</ContentContainer>
+
+					{visibleColorList && (
+						<ColorList
+							setActiveColor={setActiveColor}
+							activeColor={activeColor}
+						/>
+					)}
+
+					<ButtonPanel>
 						<button
-							className="button-add"
+							className="button"
 							onClick={() => {
 								createTodo(inputTitleValue, inputTextValue)
 							}}
 						>
 							Add note
 						</button>
-						<button className="button-close" onClick={clearInput}>
+						<button
+							className="button"
+							onClick={() => {
+								setVisibleColorList(!visibleColorList)
+							}}
+						>
+							Select color
+						</button>
+						<button className="button" onClick={clearInput}>
 							Close
 						</button>
-					</div>
+					</ButtonPanel>
 				</div>
 			)}
 			{activeInput && <div className="layout" onClick={clearInput} />}

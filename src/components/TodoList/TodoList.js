@@ -8,11 +8,11 @@ const TodoList = ({ todos, updateTodo, deleteTodo }) => {
 			<Masonry className="todo-grid">
 				{todos.map((todo) => (
 					<TodoItem
-						todo={todo}
 						key={todo.id}
 						id={todo.id}
 						title={todo.title}
 						text={todo.text}
+						color={todo.color}
 						updateTodo={updateTodo}
 						deleteTodo={deleteTodo}
 					/>

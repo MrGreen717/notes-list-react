@@ -8,8 +8,8 @@
 	border-radius: 5px;
 	box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
 
-	&__close-input {
-		&-textarea {
+	&__close {
+		.input {
 			padding: 20px;
 			cursor: text;
 			&:empty:before {
@@ -18,69 +18,54 @@
 		}
 	}
 
-	&__open-input {
+	&__open {
 		position: relative;
 		z-index: 10;
 
-		.content-container {
-			max-height: 60vh;
-			overflow: auto;
-		}
+		transition-duration: 0.28s;
+		transition-property: background-color;
+		transition-timing-function: ease-in;
 
-		&-titlearea {
+		.input {
 			padding: 15px;
 			outline: none;
-			font-weight: bold;
 
-			&:empty:before {
-				content: attr(placeholder);
-				opacity: 0.5;
-				cursor: text;
+			&-titlearea {
+				font-weight: bold;
+				&:empty:before {
+					opacity: 0.5;
+				}
 			}
-		}
 
-		&-textarea {
-			padding: 15px;
-			outline: none;
 			&:empty:before {
 				content: attr(placeholder);
 				cursor: text;
 			}
 		}
 
-		&-button-panel {
+		.button-panel {
 			padding: 15px;
+
+			display: flex;
+			justify-content: space-between;
 
 			.button {
-				&-add {
-					display: inline-block;
-					width: 150px;
-					height: 40px;
-					border: 1px solid #c7c7c7;
-					border-radius: 5px;
+				width: 150px;
+				height: 40px;
+				border: 1px solid #c7c7c7;
+				border-radius: 5px;
 
-					&:hover {
-						background: #dfdede;
-						box-shadow: 0px 1px 5px rgba(83, 83, 83, 0.4);
-					}
-				}
-
-				&-close {
-					display: block;
-					float: right;
-					width: 150px;
-					height: 40px;
-					border: 1px solid #c7c7c7;
-					border-radius: 5px;
-
-					&:hover {
-						background: #dfdede;
-						box-shadow: 0px 1px 5px rgba(83, 83, 83, 0.4);
-					}
+				&:hover {
+					background: #dfdede;
+					box-shadow: 0px 1px 5px rgba(83, 83, 83, 0.4);
 				}
 			}
 		}
 	}
+}
+
+.background {
+	@import '../../utilities/background-colors';
 }
 
 .layout {
